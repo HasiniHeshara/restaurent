@@ -1,0 +1,247 @@
+/* Page wrapper */
+.admin-menu-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1c1c1c, #7b1e3c);
+  padding: 40px 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Main container */
+.admin-menu-container {
+  max-width: 1100px;
+  margin: auto;
+  background: rgba(28, 28, 28, 0.95);
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+.admin-menu-container h2 {
+  color: #c9a24d;
+  font-size: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Form grid */
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+/* Inputs */
+.admin-form input {
+  padding: 12px 14px;
+  background: #1c1c1c;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: #f8f4ef;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.admin-form input::placeholder {
+  color: #9ca3af;
+}
+
+.admin-form input:focus {
+  outline: none;
+  border-color: #c9a24d;
+  box-shadow: 0 0 0 2px rgba(201, 162, 77, 0.25);
+}
+
+/* Add button */
+.admin-add-btn {
+  grid-column: span 2;
+  padding: 12px;
+  background: linear-gradient(135deg, #c9a24d, #b08d3c);
+  border: none;
+  border-radius: 30px;
+  color: #1c1c1c;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(201, 162, 77, 0.4);
+}
+
+/* Divider */
+.admin-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #333, transparent);
+  margin: 35px 0;
+}
+
+/* Items list */
+.admin-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Item card */
+.admin-item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1c1c1c;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  transition: 0.3s;
+}
+
+.admin-item-card:hover {
+  border-color: #c9a24d;
+}
+
+/* Item text */
+.admin-item-info {
+  color: #f8f4ef;
+  font-size: 15px;
+}
+
+.admin-item-info span {
+  color: #9ca3af;
+  font-size: 13px;
+  margin-left: 6px;
+}
+
+/* Delete button */
+.admin-delete-btn {
+  background: transparent;
+  border: 1px solid #7b1e3c;
+  color: #f87171;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-delete-btn:hover {
+  background: #7b1e3c;
+  color: #f8f4ef;
+}
+
+/* Table wrapper */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 35px;
+  background: #1c1c1c;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Table header */
+.admin-table thead {
+  background: linear-gradient(135deg, #7b1e3c, #1c1c1c);
+}
+
+.admin-table th {
+  padding: 14px 16px;
+  text-align: left;
+  color: #c9a24d;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* Table rows */
+.admin-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #f8f4ef;
+  border-bottom: 1px solid #333;
+}
+
+.admin-table tbody tr {
+  transition: background 0.3s ease;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(201, 162, 77, 0.08);
+}
+
+/* Last row fix */
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Actions column */
+.admin-table td:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+/* Edit button */
+.edit-btn {
+  background: transparent;
+  border: 1px solid #c9a24d;
+  color: #c9a24d;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background: #c9a24d;
+  color: #1c1c1c;
+}
+
+/* Delete button */
+.delete-btn {
+  background: transparent;
+  border: 1px solid #7b1e3c;
+  color: #f87171;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #7b1e3c;
+  color: #f8f4ef;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table tr {
+    display: block;
+    margin-bottom: 18px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 12px;
+  }
+
+  .admin-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-bottom: none;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #c9a24d;
+  }
+}

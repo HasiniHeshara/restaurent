@@ -3,10 +3,42 @@ import Reservation from "../models/reservationModel.js";
 // CREATE RESERVATION
 export const createReservation = async (req, res) => {
   try {
-    const reservation = await Reservation.create(req.body);
+    const {
+      customer,
+      tableNumber,
+      date,
+      time,
+      numberOfGuests,
+    } = req.body;
+
+    // Check if table is already booked
+    const existingReservation = await Reservation.findOne({
+      tableNumber,
+      date,
+      time,
+      status: { $ne: "Cancelled" }
+    });
+
+    if (existingReservation) {
+      return res.status(400).json({
+        message: "This table is already reserved for the selected date and time."
+      });
+    }
+
+    const reservation = await Reservation.create({
+      customer,
+      tableNumber,
+      date,
+      time,
+      numberOfGuests,
+    });
+
     res.status(201).json(reservation);
+
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({
+      message: error.message
+    });
   }
 };
 
