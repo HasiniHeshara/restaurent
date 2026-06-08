@@ -2,12 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import CustomerRouter from "./route/customerRoute.js";
-import MenuItemRouter from "./route/menuitemRoute.js";
-import OrderRouter from "./route/orderRoute.js";
-import ReservationRouter from "./route/reservationRoute.js";
-import ReviewRouter from "./route/reviewRoute.js";
-import AdminRouter from "./route/adminRoute.js";
+import CustomerRouter from "./routes/customerRoute.js";
+import MenuItemRouter from "./routes/menuitemRoute.js";
+import OrderRouter from "./routes/orderRoute.js";
+import ReservationRouter from "./routes/reservationRoute.js";
+import ReviewRouter from "./routes/reviewRoute.js";
+import AdminRouter from "./routes/adminRoute.js";
 
 const app = express();
 
