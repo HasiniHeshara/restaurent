@@ -14,6 +14,7 @@ import AdminOrders from "./components/Admin/AdminOrders";
 import AdminReservations from "./components/Admin/AdminReservations";
 import ReservationPage from "./components/Reservation/Reservation";
 import AdminCustomers from "./components/Admin/AdminCustomer";
+import CustomerReservations from "./components/Customer/CustomerReservation";
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
         <Route path="/admin/reservations" element={<AdminReservations />}/>
         <Route path="/reservationpage" element={<ReservationPage />}/>
         <Route path="/admin/customers" element={<AdminCustomers />}/>
-      
+        <Route path="/customer/reservations" element={<CustomerReservations />}/>
       </Routes>
     </React.Fragment>
     </div>

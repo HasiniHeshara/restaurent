@@ -1,0 +1,61 @@
+.customer-res-page {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #1c1c1c,
+    #7b1e3c
+  );
+  padding: 40px;
+}
+
+.customer-res-container {
+  max-width: 1000px;
+  margin: auto;
+  background: rgba(28, 28, 28, 0.95);
+  padding: 30px;
+  border-radius: 18px;
+}
+
+.customer-res-container h2 {
+  color: #c9a24d;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.customer-res-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-res-table th {
+  background: #7b1e3c;
+  color: #c9a24d;
+  padding: 14px;
+}
+
+.customer-res-table td {
+  padding: 14px;
+  color: white;
+  border-bottom: 1px solid #333;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.status-badge.Pending {
+  background: orange;
+  color: white;
+}
+
+.status-badge.Confirmed {
+  background: green;
+  color: white;
+}
+
+.status-badge.Cancelled {
+  background: crimson;
+  color: white;
+}

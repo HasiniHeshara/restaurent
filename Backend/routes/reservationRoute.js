@@ -3,6 +3,7 @@ import {
   createReservation,
   getAllReservations,
   getReservationById,
+  getReservationsByCustomer,
   updateReservation,
   deleteReservation,
   updateReservationStatus
@@ -14,6 +15,7 @@ const router = express.Router();
 router.post("/", createReservation);
 router.get("/", getAllReservations);
 router.get("/:id", getReservationById);
+router.get("/customer/:customerId", getReservationsByCustomer);
 router.put("/:id", updateReservation);
 router.delete("/:id", deleteReservation);
 

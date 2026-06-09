@@ -69,6 +69,12 @@ const Nav = () => {
           <>
         
             <li>
+              <Link to="/customer/reservations">
+                My Reservations
+              </Link>
+            </li>
+            
+            <li>
               <button
                 className="logout-btn"
                 onClick={handleLogout}

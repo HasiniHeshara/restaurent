@@ -117,3 +117,22 @@ export const updateReservationStatus = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const getReservationsByCustomer = async (
+  req,
+  res
+) => {
+  try {
+    const reservations =
+      await Reservation.find({
+        customer: req.params.customerId,
+      }).populate("customer");
+
+    res.json(reservations);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
