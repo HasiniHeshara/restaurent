@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import 'dotenv/config';
 
 import CustomerRouter from "./routes/customerRoute.js";
 import MenuItemRouter from "./routes/menuitemRoute.js";
@@ -23,15 +24,15 @@ app.use("/reservations", ReservationRouter);
 app.use("/reviews", ReviewRouter);
 app.use("/admin", AdminRouter);
 
-// MongoDB connection
-mongoose.connect("mongodb+srv://user:LK7Q0ANoss1Gyx79@cluster0.ykdbywy.mongodb.net/")
+//  CORRECT: Removed the semicolon to link the .then() block
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(5000, () => {
       console.log("Server running on http://localhost:5000");
     });
   })
-  .catch(err => console.log(err));
+  .catch(err => console.log("MongoDB connection error:", err));
 
 
 
