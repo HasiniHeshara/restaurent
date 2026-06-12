@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import 'dotenv/config';
+import "dotenv/config";
 
 import CustomerRouter from "./routes/customerRoute.js";
 import MenuItemRouter from "./routes/menuitemRoute.js";
@@ -16,6 +16,11 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Home route for Render test
+app.get("/", (req, res) => {
+  res.send("The Golden Fork Backend API is running successfully 🚀");
+});
+
 // Routes
 app.use("/customers", CustomerRouter);
 app.use("/menu-items", MenuItemRouter);
@@ -24,15 +29,18 @@ app.use("/reservations", ReservationRouter);
 app.use("/reviews", ReviewRouter);
 app.use("/admin", AdminRouter);
 
-//  CORRECT: Removed the semicolon to link the .then() block
-mongoose.connect(process.env.MONGODB_URI)
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    app.listen(5000, () => {
-      console.log("Server running on http://localhost:5000");
+
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
-  .catch(err => console.log("MongoDB connection error:", err));
-
-
-
+  .catch((err) => {
+    console.log("MongoDB connection error:", err);
+  });
