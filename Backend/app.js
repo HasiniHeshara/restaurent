@@ -11,17 +11,24 @@ import ReviewRouter from "./routes/reviewRoute.js";
 import AdminRouter from "./routes/adminRoute.js";
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error("MONGODB_URI is missing in environment variables");
+  process.exit(1);
+}
 
 // Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-// Home route for Render test
+// Health route for Render
 app.get("/", (req, res) => {
   res.send("The Golden Fork Backend API is running successfully 🚀");
 });
 
-// Routes
+// API routes
 app.use("/customers", CustomerRouter);
 app.use("/menu-items", MenuItemRouter);
 app.use("/orders", OrderRouter);
@@ -29,18 +36,29 @@ app.use("/reservations", ReservationRouter);
 app.use("/reviews", ReviewRouter);
 app.use("/admin", AdminRouter);
 
-// MongoDB connection
+// Optional /api routes also work
+app.use("/api/customers", CustomerRouter);
+app.use("/api/menu-items", MenuItemRouter);
+app.use("/api/orders", OrderRouter);
+app.use("/api/reservations", ReservationRouter);
+app.use("/api/reviews", ReviewRouter);
+app.use("/api/admin", AdminRouter);
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
+});
+
+// MongoDB connection and server start
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-
-    const PORT = process.env.PORT || 5000;
-
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.log("MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1);
   });

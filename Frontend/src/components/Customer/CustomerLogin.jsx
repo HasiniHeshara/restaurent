@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../api";
 import "./Customer.css";
 
 function CustomerLogin() {
@@ -8,13 +9,13 @@ function CustomerLogin() {
 
   const [loginData, setLoginData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
     setLoginData({
       ...loginData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -22,38 +23,23 @@ function CustomerLogin() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/customers/login",
-        loginData
-      );
+      const response = await axios.post(`${API_URL}/customers/login`, loginData);
 
-      localStorage.setItem(
-        "customer",
-        JSON.stringify(response.data)
-      );
+      localStorage.setItem("customer", JSON.stringify(response.data));
 
       alert("Login Successful!");
-
       navigate("/reservationpage");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Invalid Email or Password"
-      );
+      alert(error.response?.data?.message || "Invalid Email or Password");
     }
   };
 
   return (
     <div className="customer-page">
       <div className="customer-container">
-
         <h2>Customer Login</h2>
 
-        <form
-          className="customer-form"
-          onSubmit={handleSubmit}
-        >
-
+        <form className="customer-form" onSubmit={handleSubmit}>
           <input
             type="email"
             name="email"
@@ -72,22 +58,15 @@ function CustomerLogin() {
             required
           />
 
-          <button
-            type="submit"
-            className="customer-btn"
-          >
+          <button type="submit" className="customer-btn">
             Login
           </button>
-
         </form>
 
         <p className="customer-footer">
-          Don't have an account?
-          <Link to="/customer/customerRegister">
-            Register
-          </Link>
+          Don&apos;t have an account?
+          <Link to="/customer/customerRegister">Register</Link>
         </p>
-
       </div>
     </div>
   );

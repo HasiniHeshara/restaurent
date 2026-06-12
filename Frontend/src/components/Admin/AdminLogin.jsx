@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../api";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -8,16 +9,21 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const login = async () => {
-    const res = await fetch("http://localhost:5000/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/admin/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (res.ok) {
-      navigate("/admin/page");
-    } else {
-      alert("Invalid credentials");
+      if (res.ok) {
+        navigate("/admin/page");
+      } else {
+        alert("Invalid credentials");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Server connection failed");
     }
   };
 
@@ -25,18 +31,18 @@ const AdminLogin = () => {
     <div className="admin-login-page">
       <div className="admin-login-card">
         <h2>Admin Login</h2>
-        <p className="admin-login-subtitle">
-          Authorized access only
-        </p>
+        <p className="admin-login-subtitle">Authorized access only</p>
 
         <input
           placeholder="Email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           placeholder="Password"
           type="password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 

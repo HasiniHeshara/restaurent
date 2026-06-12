@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
+import { API_URL } from "../../api";
 import "./Order.css";
 
 const Order = () => {
@@ -12,24 +13,24 @@ const Order = () => {
     phone: "",
     address: "",
     orderType: "Pickup",
-    paymentMethod: "Cash"
+    paymentMethod: "Cash",
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/menu-items")
+    fetch(`${API_URL}/menu-items`)
       .then((res) => res.json())
-      .then((data) => setItems(data));
+      .then((data) => setItems(data))
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to load menu items");
+      });
   }, []);
 
   const addToCart = (item) => {
     const exist = cart.find((i) => i._id === item._id);
 
     if (exist) {
-      setCart(
-        cart.map((i) =>
-          i._id === item._id ? { ...i, qty: i.qty + 1 } : i
-        )
-      );
+      setCart(cart.map((i) => (i._id === item._id ? { ...i, qty: i.qty + 1 } : i)));
     } else {
       setCart([...cart, { ...item, qty: 1 }]);
     }
@@ -39,37 +40,53 @@ const Order = () => {
     setCart(cart.filter((item) => item._id !== id));
   };
 
-  const total = cart.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0
-  );
+  const total = cart.reduce((sum, item) => sum + Number(item.price) * item.qty, 0);
 
- const placeOrder = async () => {
-  if (!checkout.customerName || !checkout.phone) {
-    alert("Please fill required details");
-    return;
-  }
+  const placeOrder = async () => {
+    if (!checkout.customerName || !checkout.phone) {
+      alert("Please fill required details");
+      return;
+    }
 
-  const orderData = {
-    customerName: checkout.customerName,
-    phone: checkout.phone,
-    address: checkout.address,
-    orderType: checkout.orderType,
-    paymentMethod: checkout.paymentMethod,
-    items: cart,
-    totalPrice: total
+    if (cart.length === 0) {
+      alert("Please add items to cart");
+      return;
+    }
+
+    const orderData = {
+      customerName: checkout.customerName,
+      phone: checkout.phone,
+      address: checkout.orderType === "Delivery" ? checkout.address : "",
+      orderType: checkout.orderType,
+      paymentMethod: checkout.paymentMethod,
+      items: cart.map((item) => ({
+        name: item.name,
+        price: Number(item.price),
+        qty: item.qty,
+        image: item.image,
+      })),
+      totalPrice: total,
+    };
+
+    try {
+      const res = await fetch(`${API_URL}/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || "Failed to place order");
+      }
+
+      alert("Order placed successfully!");
+      setCart([]);
+      setShowCheckout(false);
+    } catch (error) {
+      alert(error.message || "Something went wrong");
+    }
   };
-
-  await fetch("http://localhost:5000/orders", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(orderData)
-  });
-
-  alert("Order placed successfully!");
-  setCart([]);
-  setShowCheckout(false);
-};
 
   return (
     <>
@@ -78,24 +95,17 @@ const Order = () => {
       <div className="order-page">
         <h2 className="order-title">Order Your Food 🍽️</h2>
 
-        {/* MENU ITEMS */}
         <div className="menu-grid">
           {items.map((item) => (
             <div key={item._id} className="menu-card">
-              <img
-                src={item.image || "https://via.placeholder.com/200"}
-                alt={item.name}
-              />
+              <img src={item.image || "https://via.placeholder.com/200"} alt={item.name} />
               <h3>{item.name}</h3>
               <p className="price">Rs. {item.price}</p>
-              <button onClick={() => addToCart(item)}>
-                Add to Cart
-              </button>
+              <button onClick={() => addToCart(item)}>Add to Cart</button>
             </div>
           ))}
         </div>
 
-        {/* CART */}
         <div className="cart-section">
           <h3>Your Cart 🛒</h3>
 
@@ -103,13 +113,12 @@ const Order = () => {
 
           {cart.map((item) => (
             <div key={item._id} className="cart-item">
-              <img
-                src={item.image || "https://via.placeholder.com/80"}
-                alt={item.name}
-              />
+              <img src={item.image || "https://via.placeholder.com/80"} alt={item.name} />
               <div>
                 <h4>{item.name}</h4>
-                <p>Rs. {item.price} × {item.qty}</p>
+                <p>
+                  Rs. {item.price} × {item.qty}
+                </p>
               </div>
               <button onClick={() => removeFromCart(item._id)}>❌</button>
             </div>
@@ -124,7 +133,6 @@ const Order = () => {
           )}
         </div>
 
-        {/* CHECKOUT FORM */}
         {showCheckout && (
           <div className="checkout-form">
             <h3>Checkout</h3>
@@ -132,24 +140,18 @@ const Order = () => {
             <input
               placeholder="Name"
               value={checkout.customerName}
-              onChange={(e) =>
-                setCheckout({ ...checkout, customerName: e.target.value })
-              }
+              onChange={(e) => setCheckout({ ...checkout, customerName: e.target.value })}
             />
 
             <input
               placeholder="Phone"
               value={checkout.phone}
-              onChange={(e) =>
-                setCheckout({ ...checkout, phone: e.target.value })
-              }
+              onChange={(e) => setCheckout({ ...checkout, phone: e.target.value })}
             />
 
             <select
               value={checkout.orderType}
-              onChange={(e) =>
-                setCheckout({ ...checkout, orderType: e.target.value })
-              }
+              onChange={(e) => setCheckout({ ...checkout, orderType: e.target.value })}
             >
               <option value="Pickup">Pickup</option>
               <option value="Delivery">Delivery</option>
@@ -159,17 +161,13 @@ const Order = () => {
               <input
                 placeholder="Delivery Address"
                 value={checkout.address}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, address: e.target.value })
-                }
+                onChange={(e) => setCheckout({ ...checkout, address: e.target.value })}
               />
             )}
 
             <select
               value={checkout.paymentMethod}
-              onChange={(e) =>
-                setCheckout({ ...checkout, paymentMethod: e.target.value })
-              }
+              onChange={(e) => setCheckout({ ...checkout, paymentMethod: e.target.value })}
             >
               <option value="Cash">Cash</option>
               <option value="Card">Card</option>

@@ -5,16 +5,19 @@ import {
   getMenuItemById,
   updateMenuItem,
   deleteMenuItem,
-  getItemsByCategory
+  getItemsByCategory,
 } from "../controllers/menuitemController.js";
 
 const router = express.Router();
 
 router.post("/", createMenuItem);
 router.get("/", getMenuItems);
+
+// Keep specific routes before /:id
+router.get("/category/:category", getItemsByCategory);
+
 router.get("/:id", getMenuItemById);
 router.put("/:id", updateMenuItem);
 router.delete("/:id", deleteMenuItem);
-router.get("/category/:category", getItemsByCategory);
 
 export default router;

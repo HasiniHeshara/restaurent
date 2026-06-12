@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../../api";
 import "./AdminCustomers.css";
 
 function AdminCustomers() {
@@ -11,23 +12,18 @@ function AdminCustomers() {
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/customers"
-      );
-
+      const res = await axios.get(`${API_URL}/customers`);
       setCustomers(res.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
+      alert("Failed to load customers");
     }
   };
 
   return (
     <div className="admin-customers-page">
       <div className="admin-customers-container">
-
-        <h2 className="admin-customers-title">
-          Customer Management
-        </h2>
+        <h2 className="admin-customers-title">Customer Management</h2>
 
         <table className="customers-table">
           <thead>
@@ -51,20 +47,13 @@ function AdminCustomers() {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="4"
-                  style={{
-                    textAlign: "center",
-                    padding: "20px"
-                  }}
-                >
+                <td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>
                   No customers found
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-
       </div>
     </div>
   );

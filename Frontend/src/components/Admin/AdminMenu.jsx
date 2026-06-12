@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../../api";
 import "./AdminMenu.css";
 
 const AdminMenu = () => {
@@ -9,13 +10,18 @@ const AdminMenu = () => {
     name: "",
     category: "",
     price: "",
-    image: ""
+    image: "",
   });
 
   const fetchItems = async () => {
-    const res = await fetch("http://localhost:5000/menu-items");
-    const data = await res.json();
-    setItems(data);
+    try {
+      const res = await fetch(`${API_URL}/menu-items`);
+      const data = await res.json();
+      setItems(data);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to load menu items");
+    }
   };
 
   useEffect(() => {
@@ -24,46 +30,59 @@ const AdminMenu = () => {
 
   const submitItem = async () => {
     if (!form.name || !form.category || !form.price) {
-      alert("Please fill all fields");
+      alert("Please fill all required fields");
       return;
     }
 
-    if (editingId) {
-      await fetch(`http://localhost:5000/menu-items/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
-    } else {
-      await fetch("http://localhost:5000/menu-items", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
-    }
+    const payload = {
+      ...form,
+      price: Number(form.price),
+    };
 
-    setForm({ name: "", category: "", price: "", image: "" });
-    setEditingId(null);
-    fetchItems();
+    try {
+      if (editingId) {
+        await fetch(`${API_URL}/menu-items/${editingId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        await fetch(`${API_URL}/menu-items`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      setForm({ name: "", category: "", price: "", image: "" });
+      setEditingId(null);
+      fetchItems();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save menu item");
+    }
   };
 
   const editItem = (item) => {
     setEditingId(item._id);
     setForm({
-      name: item.name,
-      category: item.category,
-      price: item.price,
-      image: item.image
+      name: item.name || "",
+      category: item.category || "",
+      price: item.price || "",
+      image: item.image || "",
     });
   };
 
   const deleteItem = async (id) => {
     if (!window.confirm("Delete this item?")) return;
 
-    await fetch(`http://localhost:5000/menu-items/${id}`, {
-      method: "DELETE"
-    });
-    fetchItems();
+    try {
+      await fetch(`${API_URL}/menu-items/${id}`, { method: "DELETE" });
+      fetchItems();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete menu item");
+    }
   };
 
   return (
@@ -71,7 +90,6 @@ const AdminMenu = () => {
       <div className="admin-menu-container">
         <h2>Admin – Menu Management</h2>
 
-        {/* FORM */}
         <div className="admin-form">
           <input
             placeholder="Item Name"
@@ -103,7 +121,6 @@ const AdminMenu = () => {
           </button>
         </div>
 
-        {/* TABLE */}
         <table className="admin-table">
           <thead>
             <tr>
@@ -131,7 +148,6 @@ const AdminMenu = () => {
             ))}
           </tbody>
         </table>
-
       </div>
     </div>
   );

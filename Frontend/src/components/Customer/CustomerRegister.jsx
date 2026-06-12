@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../api";
 import "./Customer.css";
 
 function CustomerRegister() {
@@ -11,13 +12,13 @@ function CustomerRegister() {
     email: "",
     phone: "",
     password: "",
-    address: ""
+    address: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -25,38 +26,23 @@ function CustomerRegister() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/customers/register",
-        formData
-      );
+      const response = await axios.post(`${API_URL}/customers/register`, formData);
 
-      localStorage.setItem(
-        "customer",
-        JSON.stringify(response.data)
-      );
+      localStorage.setItem("customer", JSON.stringify(response.data));
 
       alert("Registration Successful!");
-
       navigate("/reservationpage");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Registration Failed"
-      );
+      alert(error.response?.data?.message || "Registration Failed");
     }
   };
 
   return (
     <div className="customer-page">
       <div className="customer-container">
-
         <h2>Create Account</h2>
 
-        <form
-          className="customer-form"
-          onSubmit={handleSubmit}
-        >
-
+        <form className="customer-form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
@@ -100,22 +86,15 @@ function CustomerRegister() {
             onChange={handleChange}
           />
 
-          <button
-            type="submit"
-            className="customer-btn"
-          >
+          <button type="submit" className="customer-btn">
             Register
           </button>
-
         </form>
 
         <p className="customer-footer">
           Already have an account?
-          <Link to="/customer/customerLogin">
-            Login
-          </Link>
+          <Link to="/customer/customerLogin">Login</Link>
         </p>
-
       </div>
     </div>
   );

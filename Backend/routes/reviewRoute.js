@@ -5,19 +5,19 @@ import {
   getReviewById,
   getReviewsByMenuItem,
   updateReview,
-  deleteReview
+  deleteReview,
 } from "../controllers/reviewController.js";
 
 const router = express.Router();
 
-// CRUD Routes
 router.post("/", createReview);
 router.get("/", getAllReviews);
+
+// Keep specific routes before /:id
+router.get("/menu-item/:menuItemId", getReviewsByMenuItem);
+
 router.get("/:id", getReviewById);
 router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);
-
-// Get reviews for a specific menu item
-router.get("/menu-item/:menuItemId", getReviewsByMenuItem);
 
 export default router;

@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../../api";
 import "./AdminOrder.css";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/orders")
+    fetch(`${API_URL}/orders`)
       .then((res) => res.json())
-      .then((data) => setOrders(data));
+      .then((data) => setOrders(data))
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to load orders");
+      });
   }, []);
 
   return (
@@ -35,22 +40,16 @@ const AdminOrders = () => {
               <tr key={order._id}>
                 <td>{order.customerName}</td>
                 <td>{order.phone}</td>
-                <td>
-                  {order.orderType === "Delivery"
-                    ? order.address
-                    : "Pickup"}
-                </td>
+                <td>{order.orderType === "Delivery" ? order.address : "Pickup"}</td>
                 <td>{order.orderType}</td>
                 <td>{order.paymentMethod}</td>
-
                 <td>
-                  {order.items.map((item, index) => (
+                  {order.items?.map((item, index) => (
                     <div key={index}>
                       {item.name} × {item.qty}
                     </div>
                   ))}
                 </td>
-
                 <td>{order.totalPrice}</td>
               </tr>
             ))}
