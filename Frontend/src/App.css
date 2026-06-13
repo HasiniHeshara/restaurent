@@ -1,0 +1,241 @@
+/* ── Design tokens ── */
+:root {
+  --color-bg-dark: #0d0d0d;
+  --color-bg-secondary: #161616;
+  --color-surface: #faf8f5;
+  --color-surface-alt: #f0ebe3;
+  --color-white: #ffffff;
+
+  --color-gold: #c4a265;
+  --color-gold-light: #d4b876;
+  --color-gold-dark: #a8863f;
+
+  --color-burgundy: #5c2434;
+  --color-burgundy-dark: #3d1823;
+
+  --color-text-primary: #1a1a1a;
+  --color-text-muted: #6b6560;
+  --color-text-light: #faf8f5;
+  --color-text-subtle: #9ca3af;
+
+  --color-border: rgba(196, 162, 101, 0.18);
+  --color-border-strong: rgba(196, 162, 101, 0.35);
+
+  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.14);
+  --shadow-gold: 0 8px 24px rgba(196, 162, 101, 0.25);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  --nav-height: 72px;
+  --transition: 0.25s ease;
+}
+
+/* ── Reset & base ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(196, 162, 101, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(92, 36, 52, 0.04) 0%, transparent 50%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: var(--font-body);
+}
+
+/* ── Shared button styles ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  background: var(--color-gold);
+  color: var(--color-bg-dark);
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary:hover {
+  background: var(--color-gold-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  background: transparent;
+  color: var(--color-gold);
+  text-decoration: none;
+  border: 1.5px solid var(--color-gold);
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.btn-outline:hover {
+  background: var(--color-gold);
+  color: var(--color-bg-dark);
+}
+
+/* ── Decorative backgrounds ── */
+.bg-textured {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-textured > * {
+  position: relative;
+  z-index: 1;
+}
+
+.bg-textured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(196, 162, 101, 0.09) 0%, transparent 42%),
+    radial-gradient(circle at 85% 75%, rgba(92, 36, 52, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(196, 162, 101, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-textured::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4a265' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-textured-dark {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-textured-dark > * {
+  position: relative;
+  z-index: 1;
+}
+
+.bg-textured-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 10% 90%, rgba(196, 162, 101, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 10%, rgba(92, 36, 52, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(196, 162, 101, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-textured-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c4a265' fill-opacity='0.03'%3E%3Cpath d='M0 0h1v40H0V0zm39 0h1v40h-1V0zM0 0h40v1H0V0zm0 39h40v1H0v-1z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Floating decorative orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-orb--gold {
+  background: radial-gradient(circle, rgba(196, 162, 101, 0.15) 0%, transparent 70%);
+}
+
+.bg-orb--burgundy {
+  background: radial-gradient(circle, rgba(92, 36, 52, 0.1) 0%, transparent 70%);
+}
+
+.bg-orb--sm { width: 200px; height: 200px; }
+.bg-orb--md { width: 360px; height: 360px; }
+.bg-orb--lg { width: 520px; height: 520px; }
+
+/* Gold divider line */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold), transparent);
+}
+
+.section-divider span {
+  color: var(--color-gold);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
