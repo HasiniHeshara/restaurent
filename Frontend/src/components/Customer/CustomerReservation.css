@@ -1,25 +1,34 @@
 .customer-res-page {
-  min-height: 100vh;
-  background: linear-gradient(
-    135deg,
-    #1c1c1c,
-    #7b1e3c
-  );
-  padding: 40px;
+  min-height: calc(100vh - var(--nav-height));
+  background: linear-gradient(180deg, var(--color-surface-alt) 0%, #e8e0d4 100%);
+  padding: 48px clamp(24px, 5vw, 60px);
 }
 
 .customer-res-container {
   max-width: 1000px;
   margin: auto;
-  background: rgba(28, 28, 28, 0.95);
-  padding: 30px;
-  border-radius: 18px;
+  background: var(--color-white);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
 }
 
 .customer-res-container h2 {
-  color: #c9a24d;
+  font-family: var(--font-heading);
+  color: var(--color-burgundy);
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 32px;
+  font-size: 36px;
+}
+
+.customer-res-container h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--color-gold);
+  margin: 12px auto 0;
 }
 
 .customer-res-table {
@@ -28,34 +37,47 @@
 }
 
 .customer-res-table th {
-  background: #7b1e3c;
-  color: #c9a24d;
-  padding: 14px;
+  background: var(--color-bg-dark);
+  color: var(--color-gold);
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
 }
 
 .customer-res-table td {
-  padding: 14px;
-  color: white;
-  border-bottom: 1px solid #333;
+  padding: 14px 16px;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 14px;
+}
+
+.customer-res-table tr:hover td {
+  background: var(--color-surface);
 }
 
 .status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: bold;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .status-badge.Pending {
-  background: orange;
-  color: white;
+  background: rgba(243, 156, 18, 0.15);
+  color: #d68910;
 }
 
 .status-badge.Confirmed {
-  background: green;
-  color: white;
+  background: rgba(39, 174, 96, 0.15);
+  color: #27ae60;
 }
 
 .status-badge.Cancelled {
-  background: crimson;
-  color: white;
+  background: rgba(192, 57, 43, 0.12);
+  color: #c0392b;
 }
